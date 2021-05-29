@@ -19,12 +19,12 @@
                     </a>
                 </div>
                 <div class="col-12 col-sm-auto">
-                    <a href="#" class="btn text-white btn-info" @click="showPolicyMdl">
+                    <a href="#" class="btn text-white btn-info" @click="showOrgMdl">
                         <i data-feather="sliders"></i> Organization
                     </a>
                 </div>
                 <div class="col-12 col-sm-auto">
-                    <a href="#" class="btn text-white btn-primary" @click="showOrgMdl">
+                    <a href="#" class="btn text-white btn-primary" @click="showPolicyMdl">
                         <i data-feather="sliders"></i> Booking Policy
                     </a>
                 </div>

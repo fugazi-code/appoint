@@ -22,4 +22,10 @@ class Appointment extends Model
     {
         return $this->hasOne(Service::class, 'id', 'service');
     }
+
+
+    public function hasOneCustomer()
+    {
+        return $this->hasOne(Customer::class, 'id', 'customer_id');
+    }
 }

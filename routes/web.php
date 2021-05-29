@@ -22,6 +22,8 @@ Auth::routes(['verify' => true]);
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::post('/home/search', [HomeController::class, 'search'])->name('home.search');
+    Route::post('/cancel/booking', [HomeController::class, 'cancelBooking'])->name('cancel.booking');
 
     Route::get('appointment', [AppointmentController::class, 'index'])->name('appointment');
     Route::post('table/appointment', [AppointmentController::class, 'table'])->name('appointment.table');

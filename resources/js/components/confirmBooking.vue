@@ -26,7 +26,7 @@
                                     <h3><i class="fas fa-check-circle text-success"></i> Congratulations {{ overview.customer.name }}!</h3>
                                 </div>
                                 <div class="col-12 text-center">
-                                    <p>Save the date and the CODE for verification of our booking.</p>
+                                    <p class="fw-bolder">Save the date and the CODE for verification of our booking.</p>
                                 </div>
                                 <div class="col-12 text-center fs-1">
                                     CODE: {{ overview.customer.is_verified }}

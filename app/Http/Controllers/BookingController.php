@@ -94,9 +94,16 @@ class BookingController extends Controller
     {
         $appoint_id = decrypt($request->id);
 
+        $temp = Appointment::query()->where('id', $appoint_id)->first()->customer_id;
+
+        if($temp != '') {
+            return 'Page has expired. Booking already been taken.';
+        }
+
         Customer::query()
                 ->where('appoint_id', $appoint_id)
-                ->update(['is_verified' => substr(encrypt(1, 1), -6, -1)]);
+                ->where('is_verified', 'no')
+                ->update(['is_verified' => substr(encrypt($appoint_id), -6, -1)]);
 
         $customer_id = Customer::query()->where('appoint_id', $appoint_id)->first()->id;
 
