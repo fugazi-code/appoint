@@ -117,13 +117,10 @@
                                 </div>
                                 <div class="col-12 mt-3">
                                     <div class="d-grid">
-                                        <button v-if="step >= 4" class="btn btn-info text-white disabled">Resend E-mail
-                                            Verification
-                                        </button>
                                         <button v-else class="btn btn-info text-white" @click="confirmAndSubmit">Resend
                                             E-mail Verification
                                         </button>
-                                        <a href="/services" class="btn btn-outline-dark mt-2">Back to Services</a>
+                                        <a v-bind:href="'/services/' + overview.id" class="btn btn-outline-dark mt-2">Back to Services</a>
                                     </div>
                                 </div>
                             </div>

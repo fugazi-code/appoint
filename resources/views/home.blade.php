@@ -16,34 +16,36 @@
         <div class="inner">
             <div class="card-body p-3 p-lg-4">
                 <div class="row mt-2">
-                    <div class="col col-sm-3">
+                    <div class="col-12 col-sm-3">
                         <label>Search Date</label>
                         <input type="text" class="date-range form-control">
                     </div>
-                    <div class="col col-sm-3">
+                    <div class="col-12 col-sm-3">
                         <label>Code</label>
                         <input type="text" class="form-control" v-model="code">
                     </div>
-                    <div class="col col-sm-3">
+                    <div class="col-12 col-sm-3">
                         <label>Name of Appointee</label>
                         <input type="text" class="form-control" v-model="appointee">
                     </div>
-                    <div class="col d-flex align-items-end ps-0">
-                        <button class="btn btn-primary" @click="searchAppoint"><i class="fas fa-search"></i> Search
-                        </button>
+                    <div class="col-12 ps-2 mt-3">
+                        <div class="d-grid">
+                            <button class="btn btn-primary shadow" @click="searchAppoint"><i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-12" v-for="item in listing">
                         <div class="card border rounded-0 m-1">
-                            <div class="d-flex flex-row p-2">
+                            <div class="d-flex flex-column flex-sm-row p-2">
                                 <div class="d-flex flex-column flex-shrink ms-2 pe-3 border-end">
-                                    <div class="text-center fs-1 text-info">@{{ item.day }}</div>
-                                    <div class="text-center fs-3">@{{ item.day_name }}</div>
+                                    <div class="text-left text-sm-center fs-1 text-info">@{{ item.day }}</div>
+                                    <div class="text-left text-sm-center fs-3">@{{ item.day_name }}</div>
                                 </div>
                                 <div class="flex-shrink fw-bolder ms-3 mt-2 pe-3 border-end">
                                     <div class="text-center">@{{ item.has_one_service.name }}</div>
-                                    <div class="text-muted">@{{ item.time_format }}</div>
+                                    <div class="text-muted text-center text-sm-start">@{{ item.time_format }}</div>
                                 </div>
                                 <div class="flex-shrink fw-bolder ms-3 mt-2 pe-3 border-end" v-if="item.customer_id">
                                     <div class="">
@@ -54,17 +56,19 @@
                                     <div class="">Verified: @{{ item.has_one_customer.is_verified }}</div>
                                     <div class="text-muted"><span class="badge rounded-pill bg-success">Booked</span>
                                     </div>
-                                </div>
-                                <div class="flex-shrink fw-bolder ms-3 mt-2 pe-3 border-end" v-else>
-                                    <div class="">Open Slot</div>
-                                    <div class="text-muted"><span
-                                            class="badge rounded-pill bg-warning">Not Booked</span></div>
-                                </div>
-                                <div class="flex-shrink fw-bolder ms-3 mt-2" v-if="item.customer_id">
                                     <button class="btn btn-sm btn-danger" @click="cancelBooking(item)">
                                         <i class="fas fa-ban"></i>
                                         Cancel this Booking
                                     </button>
+                                </div>
+                                <div class="d-flex flex-sm-column flex-row flex-shrink fw-bolder ms-3 mt-2 pe-3 border-end" v-else>
+                                    <div class="">Open Slot</div>
+                                    <div class="text-muted ms-3 ms-sm-0">
+                                        <span class="badge rounded-pill bg-warning">Not Booked</span>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink fw-bolder ms-3 mt-2" v-if="item.customer_id">
+
                                 </div>
                             </div>
                         </div>

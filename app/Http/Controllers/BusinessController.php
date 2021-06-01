@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Business;
+use App\Models\CarbonCopy;
 use App\Models\OtherDetail;
 use Illuminate\Http\Request;
 
@@ -50,6 +51,31 @@ class BusinessController extends Controller
             "long"           => $request->long,
             "booking_policy" => $request->booking_policy,
         ]);
+
+        return ['success' => true];
+    }
+
+    public function storeNotifiable(Request $request)
+    {
+        CarbonCopy::updateOrCreate([
+            'id' => $request->id ?? ''
+        ], [
+            'email'      => $request->email,
+            'created_by' => auth()->user()->business_id,
+            'isActive'   => $request->isActive,
+        ]);
+
+        return ['success' => true];
+    }
+
+    public function getNotifiable()
+    {
+        return CarbonCopy::all();
+    }
+
+    public function deleteNotifiable(Request $request)
+    {
+        CarbonCopy::query()->where('id', $request->id)->delete();
 
         return ['success' => true];
     }

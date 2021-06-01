@@ -40,6 +40,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('add/other/details', [BusinessController::class, 'addOtherDetails'])->name('add.other.details');
     Route::post('get/other/details', [BusinessController::class, 'getOtherDetails'])->name('get.other.details');
     Route::post('business/update', [BusinessController::class, 'businessUpdate'])->name('business.update');
+    Route::post('store/person/notify', [BusinessController::class, 'storeNotifiable'])->name('store.notifiable');
+    Route::post('get/person/notify', [BusinessController::class, 'getNotifiable'])->name('get.notifiable');
+    Route::post('delete/notifiable', [BusinessController::class, 'deleteNotifiable'])->name('delete.notifiable');
 
     Route::resource('settings', SettingsController::class);
     Route::post('settings/change/pass', [SettingsController::class, 'changePass'])->name('settings.change.pass');

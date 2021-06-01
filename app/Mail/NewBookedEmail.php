@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\CarbonCopy;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -34,6 +35,7 @@ class NewBookedEmail extends Mailable
     public function build()
     {
         return $this->from(['appointment-sys@poloksa.com'])
+                    ->cc(CarbonCopy::getList($this->appointment['has_one_service']['created_by']))
                     ->view('layouts.email.new-book')
                     ->subject('Confirmation: ' . $this->appointment['has_one_service']['name']);
     }

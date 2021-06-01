@@ -14,19 +14,90 @@
         <div class="card-body">
             <div class="row mb-2">
                 <div class="col-12 col-sm-auto">
-                    <a href="#" class="btn text-white btn-success" @click="showOtherDetailMdl">
-                        <i data-feather="sliders"></i> View Other Details
+                    <a href="#" class="btn text-white btn-success mt-2" @click="showOtherDetailMdl">
+                        <i data-feather="sliders"></i> Other Booking Details
                     </a>
                 </div>
                 <div class="col-12 col-sm-auto">
-                    <a href="#" class="btn text-white btn-info" @click="showOrgMdl">
-                        <i data-feather="sliders"></i> Organization
+                    <a href="#" class="btn text-white btn-info mt-2" @click="showOrgMdl">
+                        <i data-feather="sliders"></i> Organization Details
                     </a>
                 </div>
                 <div class="col-12 col-sm-auto">
-                    <a href="#" class="btn text-white btn-primary" @click="showPolicyMdl">
+                    <a href="#" class="btn text-white btn-primary mt-2" @click="showPolicyMdl">
                         <i data-feather="sliders"></i> Booking Policy
                     </a>
+                </div>
+                <div class="col-12 col-sm-auto">
+                    <a href="#" class="btn text-white btn-warning mt-2" @click="showCarbonCopiesMdl">
+                        <i data-feather="sliders"></i> Persons to Notify
+                    </a>
+                </div>
+            </div>
+        </div>
+        {{--        CARBON COPY --}}
+        <div id="carbonCopyMdl" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">List of Persons to Notify</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-2">
+                            <div class="col d-flex flex-row">
+                                <label class="mt-1">E-mail</label>
+                                <div class="flex-shrink mx-3">
+                                    <input type="email" class="form-control" v-model="input_email">
+                                </div>
+                                <button class="btn btn-success"
+                                        @click="addEmail({email: input_email, isActive: 'yes'})">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="col-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item p-2" v-for="item in email_list">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="my-auto">
+                                                <span v-if="item.isActive === 'yes'"
+                                                      class="badge rounded-pill bg-primary me-1">
+                                                    ACTIVE
+                                                </span>
+                                                <span v-else
+                                                      class="badge rounded-pill bg-warning me-1">
+                                                    NOT ACTIVE
+                                                </span>
+                                                @{{ item.email }}
+                                            </div>
+                                            <div>
+                                                <div class="btn-group-sm btn-group" role="group"
+                                                     aria-label="Basic example">
+                                                    <button type="button" class="btn btn-warning"
+                                                            v-if="item.isActive === 'yes'"
+                                                            @click="setToNotActive(item)">
+                                                        <i class="fas fa-ban"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary"
+                                                            v-else
+                                                            @click="setToActive(item)">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger"
+                                                            @click="deleteEmail(item)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -157,8 +228,61 @@
                 policyMdl: null,
                 orgMdl: null,
                 myModal: null,
+                carbonCopiesMdl: null,
+                email_list: [],
+                input_email: null
             },
             methods: {
+                setToActive(item) {
+                    var $this = this;
+                    item.isActive = 'yes';
+                    $this.addEmail(item);
+                },
+                setToNotActive(item) {
+                    var $this = this;
+                    item.isActive = 'no';
+                    $this.addEmail(item);
+                },
+                getCC() {
+                    var $this = this;
+                    axios.post('{{ route('get.notifiable') }}').then(function (value) {
+                        $this.email_list = value.data;
+                    });
+                },
+                deleteEmail(item) {
+                    var $this = this;
+                    axios.post('{{ route('delete.notifiable') }}', item).then(function (value) {
+                        $this.getCC();
+                    });
+                },
+                addEmail(item) {
+                    var $this = this;
+                    axios.post('{{ route('store.notifiable') }}', item).then(function (value) {
+                        $this.input_email = '';
+                        $this.getCC();
+                    });
+                },
+                showPolicyMdl() {
+                    this.policyMdl.show();
+                },
+                showOrgMdl() {
+                    this.orgMdl.show();
+                },
+                showCarbonCopiesMdl() {
+                    this.carbonCopiesMdl.show();
+                },
+                showOtherDetailMdl() {
+                    var $this = this;
+                    $this.other_details = [];
+                    $this.otherDetailMdl.show();
+                    $this.getOtherDetails();
+                },
+                getOtherDetails() {
+                    var $this = this;
+                    axios.post('{{ route('get.other.details') }}').then(function (value) {
+                        $this.other_details = value.data;
+                    });
+                },
                 savePolicy() {
                     var $this = this;
                     this.business.booking_policy = tinymce.get("editor").getContent();
@@ -170,24 +294,6 @@
                         );
                     });
                 },
-                showPolicyMdl() {
-                    this.policyMdl.show();
-                },
-                showOrgMdl() {
-                    this.orgMdl.show();
-                },
-                getOtherDetails() {
-                    var $this = this;
-                    axios.post('{{ route('get.other.details') }}').then(function (value) {
-                        $this.other_details = value.data;
-                    });
-                },
-                showOtherDetailMdl() {
-                    var $this = this;
-                    $this.other_details = [];
-                    $this.otherDetailMdl.show();
-                    $this.getOtherDetails();
-                },
                 saveOtherDetails() {
                     var $this = this;
                     axios.post('{{ route('add.other.details') }}', this.other_details).then(function () {
@@ -197,6 +303,9 @@
             },
             mounted() {
                 var $this = this;
+
+                $this.getCC();
+
                 $this.otherDetailMdl = new bootstrap.Modal(document.getElementById('otherDetailMdl'), {
                     keyboard: false
                 });
@@ -204,6 +313,9 @@
                     keyboard: false
                 });
                 $this.orgMdl = new bootstrap.Modal(document.getElementById('orgMdl'), {
+                    keyboard: false
+                });
+                $this.carbonCopiesMdl = new bootstrap.Modal(document.getElementById('carbonCopyMdl'), {
                     keyboard: false
                 });
 
