@@ -36,7 +36,7 @@ class BusinessController extends Controller
 
     public function getOtherDetails()
     {
-        return OtherDetail::all();
+        return OtherDetail::query()->orderBy('id','desc')->get();
     }
 
     public function businessUpdate(Request $request)
