@@ -161,12 +161,8 @@
                 </div>
             </li> --}}
             <li class="nav-item dropdown">
-                <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#"
-                    data-bs-toggle="dropdown">
-                    <i class="align-middle" data-feather="settings"></i>
-                </a>
 
-                <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
+                <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href=""
                     data-bs-toggle="dropdown">
                     <span class="fas fa-circle" style="color: rgb(101, 245, 113)"></span>
                     {{ auth()->user()->name }}

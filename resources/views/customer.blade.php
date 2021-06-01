@@ -311,18 +311,10 @@
 
                 $this.getCC();
 
-                $this.otherDetailMdl = new bootstrap.Modal(document.getElementById('otherDetailMdl'), {
-                    keyboard: false
-                });
-                $this.policyMdl = new bootstrap.Modal(document.getElementById('policyMdl'), {
-                    keyboard: false
-                });
-                $this.orgMdl = new bootstrap.Modal(document.getElementById('orgMdl'), {
-                    keyboard: false
-                });
-                $this.carbonCopiesMdl = new bootstrap.Modal(document.getElementById('carbonCopyMdl'), {
-                    keyboard: false
-                });
+                $this.otherDetailMdl = new bootstrap.Modal(document.getElementById('otherDetailMdl'));
+                $this.policyMdl = new bootstrap.Modal(document.getElementById('policyMdl'));
+                $this.orgMdl = new bootstrap.Modal(document.getElementById('orgMdl'));
+                $this.carbonCopiesMdl = new bootstrap.Modal(document.getElementById('carbonCopyMdl'));
 
                 tinymce.init({
                     selector: '#editor',
