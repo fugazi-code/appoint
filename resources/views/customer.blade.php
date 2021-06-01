@@ -110,7 +110,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row g-2" v-for="item in other_details">
+                        <div class="row g-2" v-for="(item, idx) in other_details">
                             <div class="col-md">
                                 <label>Field Name</label>
                                 <input type="text" class="form-control" v-model="item.field">
@@ -124,6 +124,11 @@
                                     <option value="date">Date</option>
                                     <option value="datetime">Date & Time</option>
                                 </select>
+                            </div>
+                            <div class="col-md">
+                                <button class="btn btn-sm btn-danger mt-4" @click="$delete(other_details, idx)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
                         </div>
                         <label class="fs-4" v-if="other_details.length === 0">No Other Details Yet.</label>
