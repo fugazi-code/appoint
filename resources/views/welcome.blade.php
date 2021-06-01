@@ -21,7 +21,7 @@
             <div class="col-6 mb-2">
                 <div class="d-flex flex-column">
                     @foreach($services as $key => $value)
-                        <div class="card shadow h-100">
+                        <div class="card shadow h-100 mb-2">
                             <div class="card-body">
                                 <h5 class="card-title fw-bolder">{{ $value['name'] }}</h5>
                                 <div class="card-text">{!! $value['desc'] !!}</div>
