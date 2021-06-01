@@ -117,8 +117,8 @@
                                 </div>
                                 <div class="col-12 mt-3">
                                     <div class="d-grid">
-                                        <button v-else class="btn btn-info text-white" @click="confirmAndSubmit">Resend
-                                            E-mail Verification
+                                        <button class="btn btn-info text-white" @click="confirmAndSubmit">Resend
+                                            Resend E-mail Verification
                                         </button>
                                         <a v-bind:href="'/services/' + overview.id" class="btn btn-outline-dark mt-2">Back to Services</a>
                                     </div>
