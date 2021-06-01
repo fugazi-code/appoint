@@ -18,6 +18,8 @@ class BusinessController extends Controller
 
     public function addOtherDetails(Request $request)
     {
+        OtherDetail::query()->where('created_by', auth()->id())->delete();
+
         foreach ($request->input() as $value) {
             OtherDetail::updateOrCreate(
                 ['id' => $value['id'] ?? ''],
