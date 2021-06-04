@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <!-- STEP 2-->
-                    <div v-show="step === 2" class="card flex-shrink-1 w-50">
+                    <div v-show="step === 2" class="card flex-shrink-1 w-auto">
                         <div class="card-body shadow">
                             <div class="d-flex flex-row border-bottom">
                                 <div class="me-2">

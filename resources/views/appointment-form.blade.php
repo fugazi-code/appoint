@@ -47,7 +47,7 @@
 
         <!-- Schedule -->
         <div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Create Schedule</h5>
@@ -60,29 +60,39 @@
                                 <input v-model="schedule.sched_date" type="date" class="form-control" readonly>
                             </div>
                             <div class="mb-1">
-                                Time
-                                <button class="btn btn-sm btn-primary"
-                                        @click="schedule.sched_time.push({'time_appoint': '00:00'})">
-                                    <i class="fas fa-plus"></i>
-                                </button>
+                                <label>Choose Time & Number of Timelost</label>
+                                <div class="d-flex flex-row">
+                                    <div class="p-2 flex-shrink-1">
+                                        <input type="time" v-model="time_temp" class="form-control mx-2">
+                                    </div>
+                                    <div class="p-2 flex-shrink-1" style="width: 88px;">
+                                        <input type="number" v-model="timeslot_count" class="form-control mx-2">
+                                    </div>
+                                    <div class="p-2">
+                                        <button class="btn btn-sm btn-primary mx-2"
+                                                @click="addTimeSlot">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-5 mt-2" v-for="(item, idx) in schedule.sched_time">
+                            <div class="col-auto mt-2" v-for="(item, idx) in schedule.sched_time">
                                 <div class="d-flex flex-row" v-if="!item.customer_id">
-                                    <input type="time" v-model="item.time_appoint" class="form-control">
+                                    <input type="time" v-model="item.time_appoint" class="form-control me-1" readonly>
                                     <button @click="removeSchedule(schedule.sched_time, idx)"
                                             class="btn btn-sm btn-danger"><i
                                             class="fas fa-trash"></i></button>
                                 </div>
                                 <div class="d-flex flex-row" v-else>
                                     <input type="time" v-model="item.time_appoint" class="form-control" readonly>
-                                     &nbsp;<i class="fs-2 fas fa-check-circle text-success mt-1"></i>
+                                    &nbsp;<i class="fs-2 fas fa-check-circle text-success mt-1"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="saveSchedule">Save changes</button>
+                        {{--                        <button type="button" class="btn btn-primary" @click="saveSchedule">Save changes</button>--}}
                     </div>
                 </div>
             </div>
@@ -102,6 +112,8 @@
                     sched_date: '',
                     sched_time: []
                 },
+                time_temp: '00:00',
+                timeslot_count: 1,
                 service: @isset($service) {!! $service  !!} @else
                 {
                     name: '',
@@ -110,6 +122,14 @@
                 @endisset
             },
             methods: {
+                addTimeSlot() {
+                    for (x = 0; x < this.timeslot_count; x++) {
+                        this.schedule.sched_time.push({
+                            'time_appoint': this.time_temp,
+                        });
+                    }
+                    this.saveSchedule();
+                },
                 removeSchedule(sched_time, idx) {
                     var $this = this;
                     axios.post('{{ route('schedule.delete') }}', sched_time[idx]).then(function () {
@@ -132,12 +152,12 @@
                         'service': this.service,
                         'schedule': this.schedule
                     }).then(function (value) {
-                        Swal.fire(
-                            'Success!',
-                            'Operation saved.',
-                            'success'
-                        );
-                        $this.scheduleModal.hide();
+                        // Swal.fire(
+                        //     'Success!',
+                        //     'Operation saved.',
+                        //     'success'
+                        // );
+                        // $this.scheduleModal.hide();
                         $this.getAllScheduled();
                     }).catch(excp => {
                         catchError(excp)
