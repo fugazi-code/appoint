@@ -203,12 +203,12 @@
                     });
                     $this.calendar.batchRendering(function () {
                         $this.calendar.changeView('dayGridMonth');
-                        axios.post('{{ route('schedule.list') }}').then(function (value) {
+                        axios.post('{{ route('schedule.list') }}', $this.service).then(function (value) {
                             value.data.open_slot.forEach(function (item) {
                                 $this.calendar.addEvent({title: 'Open Slots ' + item.slot, start: item.date_appoint});
                             });
                         });
-                        axios.post('{{ route('schedule.list') }}').then(function (value) {
+                        axios.post('{{ route('schedule.list') }}', $this.service).then(function (value) {
                             value.data.close_slot.forEach(function (item) {
                                 $this.calendar.addEvent({title: 'Booked Slots ' + item.slot, start: item.date_appoint});
                             });

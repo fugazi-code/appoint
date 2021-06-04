@@ -67,12 +67,12 @@ class AppointmentController extends Controller
             Appointment::updateOrCreate(
                 ['id' => $value['id'] ?? ''],
                 [
-                    'customer_id'         => '',
-                    'provider'            => '',
-                    'service'             => $request->service['id'],
-                    'date_appoint'        => $request->schedule['sched_date'],
-                    'time_appoint'        => $value['time_appoint'],
-                    'notes'               => '',
+                    'customer_id'  => '',
+                    'provider'     => '',
+                    'service'      => $request->service['id'],
+                    'date_appoint' => $request->schedule['sched_date'],
+                    'time_appoint' => $value['time_appoint'],
+                    'notes'        => '',
                 ]
             );
         }
@@ -90,11 +90,11 @@ class AppointmentController extends Controller
         return collect($result)->toArray();
     }
 
-    public function listSchedule()
+    public function listSchedule(Request $request)
     {
-        $open = DB::select("SELECT COUNT(*) as slot, date_appoint, customer_id  FROM appointments a where a.customer_id  = '' group by date_appoint, customer_id");
+        $open = DB::select("SELECT COUNT(*) as slot, date_appoint, customer_id  FROM appointments a where a.customer_id  = '' and a.service = {$request->id} group by date_appoint, customer_id");
 
-        $closed = DB::select("SELECT COUNT(*) as slot, date_appoint, customer_id  FROM appointments a where a.customer_id  <> '' group by date_appoint, customer_id");
+        $closed = DB::select("SELECT COUNT(*) as slot, date_appoint, customer_id  FROM appointments a where a.customer_id  <> '' and a.service = {$request->id}  group by date_appoint, customer_id");
 
         return ['open_slot' => $open, 'close_slot' => $closed];
     }
