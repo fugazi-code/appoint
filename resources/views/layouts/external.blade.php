@@ -41,10 +41,11 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
         @isset($component)
-    const app = new Vue({
-            el: '#app'
-        });
+        const app = new Vue({
+                el: '#app'
+            });
     @endisset
+        // Author: Renier R. Trenuela II
 </script>
 </body>
 </html>
