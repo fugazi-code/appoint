@@ -30,7 +30,13 @@
                     </div>
                     <div class="col-12 ps-2 mt-3">
                         <div class="d-grid">
-                            <button class="btn btn-primary shadow" @click="searchAppoint"><i class="fas fa-search"></i> Search
+                            <button class="btn btn-primary shadow" @click="searchAppoint"><i class="fas fa-search"></i>
+                                Search
+                            </button>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-info shadow" @click="exportMdl.show()">
+                                <i class="fas fa-download"></i> Export
                             </button>
                         </div>
                     </div>
@@ -61,7 +67,9 @@
                                         Cancel this Booking
                                     </button>
                                 </div>
-                                <div class="d-flex flex-sm-column flex-row flex-shrink fw-bolder ms-3 mt-2 pe-3 border-end" v-else>
+                                <div
+                                    class="d-flex flex-sm-column flex-row flex-shrink fw-bolder ms-3 mt-2 pe-3 border-end"
+                                    v-else>
                                     <div class="">Open Slot</div>
                                     <div class="text-muted ms-3 ms-sm-0">
                                         <span class="badge rounded-pill bg-warning">Not Booked</span>
@@ -101,6 +109,7 @@
                 </div>
             </div>
         </div>
+
         {{--      Show Details Modal--}}
         <div id="showDetailsMdl" class="modal fade" tabindex="-1">
             <div class="modal-dialog">
@@ -136,7 +145,8 @@
                                         <label class="">@{{ item.has_one_customer.email }}</label>
                                     </div>
                                 </div>
-                                <div class="row border-bottom" v-for="(value, idx) in JSON.parse(item.has_one_customer.other_details)">
+                                <div class="row border-bottom"
+                                     v-for="(value, idx) in JSON.parse(item.has_one_customer.other_details)">
                                     <div class="col">
                                         <label class="fw-bolder">@{{ value.field }}</label>
                                     </div>
@@ -150,6 +160,30 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-danger" @click="cancelBookConf">Confirm Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{--      Export Modal--}}
+        <div id="exportMdl" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Other Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="fw-bolder">Date</label>
+                                <input type="date" class="form-control" v-model="date_export">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" @click="exportFile">Export</button>
                     </div>
                 </div>
             </div>
@@ -169,12 +203,17 @@
                     code: '',
                     appointee: '',
                     message: '',
+                    date_export: '',
                     cancelBookingMdl: null,
                     showDetailsMdl: null,
+                    exportMdl: null,
                     item: null
                 }
             },
             methods: {
+                exportFile() {
+                    window.location = '/export/scheduled/'+ this.date_export
+                },
                 showDetails(item) {
                     var $this = this;
                     $this.item = item;
@@ -227,6 +266,10 @@
                 });
 
                 $this.showDetailsMdl = new bootstrap.Modal(document.getElementById('showDetailsMdl'), {
+                    keyboard: false
+                });
+
+                $this.exportMdl = new bootstrap.Modal(document.getElementById('exportMdl'), {
                     keyboard: false
                 });
             }

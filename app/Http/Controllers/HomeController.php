@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Excel;
 use Carbon\Carbon;
 use App\Models\Customer;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Mail\BookedCancelled;
+use App\Exports\AppointmentExport;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
@@ -62,5 +64,11 @@ class HomeController extends Controller
             ->send(new BookedCancelled($request->item, $request->message));
 
         return ['success' => true];
+    }
+
+    public function exportFile($dated)
+    {
+        $now = Carbon::now()->format('Y_m_d-h:mA');
+        return Excel::download(new AppointmentExport($dated), "Appointments_{$now}.xlsx");
     }
 }
