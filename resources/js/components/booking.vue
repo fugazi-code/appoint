@@ -11,7 +11,7 @@
                         <div class="card-body shadow">
                             <div class="d-flex flex-row border-bottom">
                                 <div class="me-2">
-                                    <a v-bind:href="'/services/' + overview.id" class="mt-1 btn btn-sm btn-primary text-white mb-2">
+                                    <a v-bind:href="'/services/' + overview.service.created_by" class="mt-1 btn btn-sm btn-primary text-white mb-2">
                                         <i class="fas fa-arrow-alt-circle-left"></i> Back
                                     </a>
                                 </div>

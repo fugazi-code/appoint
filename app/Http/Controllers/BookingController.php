@@ -30,10 +30,12 @@ class BookingController extends Controller
 
     public function book(Request $request)
     {
+        $id = Crypt::decrypt($request->id);
         return view('layouts.external', [
             'component' => 'booking-page',
             'data'      => [
-                'id'                 => Crypt::decrypt($request->id),
+                'id'                 => $id,
+                'service'            => Service::query()->where('id', $id)->first(),
                 'slots_link'         => route('slots'),
                 'other_details_link' => route('details'),
                 'reserve_link'       => route('reserve'),
@@ -96,7 +98,7 @@ class BookingController extends Controller
 
         $temp = Appointment::query()->where('id', $appoint_id)->first()->customer_id;
 
-        if($temp != '') {
+        if ($temp != '') {
             return 'Page has expired. Booking already been taken.';
         }
 
