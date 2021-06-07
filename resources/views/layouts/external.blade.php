@@ -47,5 +47,7 @@
     @endisset
         // Author: Renier R. Trenuela II
 </script>
+
+@yield('scripts')
 </body>
 </html>

@@ -60,13 +60,26 @@
                                 <input v-model="schedule.sched_date" type="date" class="form-control" readonly>
                             </div>
                             <div class="mb-1">
-                                <label>Choose Time & Number of Timelost</label>
+                                <label class="fw-bold">Choose Time</label>
                                 <div class="d-flex flex-row">
                                     <div class="p-2 flex-shrink-1">
-                                        <input type="time" v-model="time_temp" class="form-control mx-2">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Time</span>
+                                            <input type="time" class="form-control" v-model="time_temp">
+                                        </div>
                                     </div>
-                                    <div class="p-2 flex-shrink-1" style="width: 88px;">
-                                        <input type="number" v-model="timeslot_count" class="form-control mx-2">
+                                    <div class="p-2 flex-shrink-1">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Slot</span>
+                                            <input type="number" v-model="timeslot_count" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="p-2 flex-shrink-1">
+                                        <div class="input-group mb-0">
+                                            <span class="input-group-text">Interval</span>
+                                            <input type="number" v-model="time_interval" class="form-control">
+                                        </div>
+                                        <div class="form-text">Interval is in minutes...</div>
                                     </div>
                                     <div class="p-2">
                                         <button class="btn btn-sm btn-primary mx-2"
@@ -114,6 +127,8 @@
                 },
                 time_temp: '00:00',
                 timeslot_count: 1,
+                time_interval: 0,
+                calendarEl: null,
                 service: @isset($service) {!! $service  !!} @else
                 {
                     name: '',
@@ -123,10 +138,16 @@
             },
             methods: {
                 addTimeSlot() {
+                    var temp = new Date("1970-01-01 " + this.time_temp);
+                    var interval = 0
                     for (x = 0; x < this.timeslot_count; x++) {
+                        var timer = temp;
                         this.schedule.sched_time.push({
-                            'time_appoint': this.time_temp,
+                            'time_appoint': timer.toTimeString().slice(0, 5),
                         });
+                        interval = parseFloat(interval) + parseFloat(this.time_interval);
+                        temp = new Date("1970-01-01 " + this.time_temp);
+                        temp.setMinutes(temp.getMinutes() + interval);
                     }
                     this.saveSchedule();
                 },
@@ -191,8 +212,8 @@
                 },
                 getAllScheduled() {
                     var $this = this;
-                    var calendarEl = document.getElementById('calendar');
-                    this.calendar = new FullCalendar.Calendar(calendarEl, {
+
+                    this.calendar = new FullCalendar.Calendar($this.calendarEl, {
                         initialView: 'dayGridMonth',
                         dateClick: function (value) {
                             $this.schedule.sched_date = value.dateStr;
@@ -201,19 +222,20 @@
                             $this.scheduleModal.show();
                         }
                     });
+
                     $this.calendar.batchRendering(function () {
                         $this.calendar.changeView('dayGridMonth');
                         axios.post('{{ route('schedule.list') }}', $this.service).then(function (value) {
                             value.data.open_slot.forEach(function (item) {
                                 $this.calendar.addEvent({title: 'Open Slots ' + item.slot, start: item.date_appoint});
                             });
-                        });
-                        axios.post('{{ route('schedule.list') }}', $this.service).then(function (value) {
+
                             value.data.close_slot.forEach(function (item) {
                                 $this.calendar.addEvent({title: 'Booked Slots ' + item.slot, start: item.date_appoint});
                             });
                         });
                     });
+
                     $this.calendar.render();
                 }
             },
@@ -222,7 +244,7 @@
                 $this.scheduleModal = new bootstrap.Modal(document.getElementById('scheduleModal'), {
                     keyboard: false
                 });
-
+                $this.calendarEl = document.getElementById('calendar');
                 ClassicEditor.create(document.querySelector('#editor')).then(newEditor => {
                     $this.editor = newEditor;
                 });
