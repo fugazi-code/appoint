@@ -2,7 +2,10 @@
     <div class="container px-md-5">
         <div class="d-flex flex-column justify-content-center">
             <div class="mt-5 text-center">
-                <h1 class="fw-bolder text-center lime-light"> {{ overview.business.name }}<br>{{ overview.customer.service_has_one.name }}</h1>
+                <h1 class="fw-bolder text-center lime-light">
+                    <img src="/images/logo/te-logo.png" width="50px" class="me-2">
+                    {{ overview.business.name }}<br>{{ overview.customer.service_has_one.name }}
+                </h1>
             </div>
             <div class="mt-2 mt-sm-5">
                 <div class="d-flex justify-content-center">
