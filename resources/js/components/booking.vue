@@ -2,7 +2,10 @@
     <div class="container px-md-5">
         <div class="d-flex flex-column justify-content-center">
             <div class="mt-5">
-                <h1 class="fw-bolder text-center lime-light">Appointments</h1>
+                <h1 class="fw-bolder text-center lime-light">
+                    <img src="/images/logo/te-logo.png" width="50px" class="me-2">
+                    Appointments
+                </h1>
             </div>
             <div class="mt-2 mt-sm-5">
                 <div class="d-flex justify-content-center">

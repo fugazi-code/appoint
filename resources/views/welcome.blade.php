@@ -3,8 +3,9 @@
 @section('content')
     <div class="container px-sm-5">
         <div class="d-flex flex-row justify-content-center">
-            <div class="mt-5">
-                <h1 class="fw-bolder text-center lime-light">Services Available for Appointment</h1>
+            <div class="mt-5 d-flex flex-row">
+                <img src="{{ asset('images/logo/te-logo.png') }}" width="50px">
+                <h1 class="fw-bolder text-center lime-light ms-4">Services Available for Appointment</h1>
             </div>
         </div>
         <div class="row mt-4">
