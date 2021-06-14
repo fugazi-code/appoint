@@ -32,6 +32,9 @@
                                     <p class="fw-bolder">Save the date and the CODE for verification of our booking.</p>
                                 </div>
                                 <div class="col-12 text-center fs-1">
+                                    WHEN: {{ overview.customer.appointment_has_one.date_appoint }} on {{ overview.customer.appointment_has_one.time_appoint}}
+                                </div>
+                                <div class="col-12 text-center fs-1">
                                     CODE: {{ overview.customer.is_verified }}
                                 </div>
                             </div>
