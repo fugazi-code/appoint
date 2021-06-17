@@ -150,20 +150,24 @@
                     appoint_id: null,
                     name: null,
                     email: null,
-                }
+                },
+                submitted: 0,
             };
         },
         methods: {
             confirmAndSubmit() {
                 var $this = this;
-                axios.post(this.overview.reserve_link, this.reservation)
-                    .then(function (value) {
-                        if ($this.step === 3) {
-                            $this.step += 4
-                        } else {
-                            $this.step = 3;
-                        }
-                    });
+                if($this.submitted === 0){
+                    $this.submitted = 1;
+                    axios.post(this.overview.reserve_link, this.reservation)
+                        .then(function (value) {
+                            if ($this.step === 3) {
+                                $this.step += 4
+                            } else {
+                                $this.step = 3;
+                            }
+                        });
+                }
             },
             getOtherDetails() {
                 var $this = this;
