@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Excel;
 use Carbon\Carbon;
+use App\Models\Service;
 use App\Models\Customer;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
@@ -66,9 +67,17 @@ class HomeController extends Controller
         return ['success' => true];
     }
 
-    public function exportFile($dated)
+    public function exportFile(Request $request)
     {
-        $now = Carbon::now()->format('Y_m_d-h:mA');
-        return Excel::download(new AppointmentExport($dated), "Appointments_{$now}.xlsx");
+        $now          = Carbon::now()->format('Y_m_d-h:mA');
+        $service_name = Service::query()->where('id', $request->service)->first()->name;
+
+        return Excel::download(new AppointmentExport($request->dated, $request->service, $service_name),
+            "{$service_name}_Appointments_{$now}.xlsx");
+    }
+
+    public function getServices()
+    {
+        return Service::query()->select(['id', 'name'])->where('created_by', auth()->user()->business_id)->get();
     }
 }

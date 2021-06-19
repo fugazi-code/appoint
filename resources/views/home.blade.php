@@ -34,7 +34,7 @@
                                 Search
                             </button>
                         </div>
-                        <div class="d-grid">
+                        <div class="d-grid mt-1">
                             <button class="btn btn-info shadow" @click="exportMdl.show()">
                                 <i class="fas fa-download"></i> Export
                             </button>
@@ -170,7 +170,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Other Details</h5>
+                        <h5 class="modal-title">Filtered By</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -178,6 +178,14 @@
                             <div class="col">
                                 <label class="fw-bolder">Date</label>
                                 <input type="date" class="form-control" v-model="date_export">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="fw-bolder">Service</label>
+                                <select class="form-control" v-model="service_selected">
+                                    <option v-for="(item, idx) in services" v-bind:value="item.id" v-bind:selected="idx === 0">@{{ item.name }}</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -197,7 +205,9 @@
             el: '#app',
             data() {
                 return {
+                    services: [],
                     listing: [],
+                    service_selected: '',
                     start_date: '',
                     end_date: '',
                     code: '',
@@ -212,7 +222,7 @@
             },
             methods: {
                 exportFile() {
-                    window.location = '/export/scheduled/'+ this.date_export
+                    window.location = '/export/scheduled/'+ this.date_export + '/' + this.service_selected
                 },
                 showDetails(item) {
                     var $this = this;
@@ -231,6 +241,13 @@
                             $this.cancelBookingMdl.hide();
                             $this.searchAppoint();
                         })
+                },
+                getServices() {
+                    var $this = this;
+                    axios.post('{{ route('home.services') }}')
+                        .then(function (value) {
+                            $this.services = value.data;
+                        });
                 },
                 searchAppoint() {
                     var $this = this;
@@ -252,6 +269,7 @@
                 date.setDate(date.getDate() + 7);
                 $this.end_date = date.toISOString().slice(0, 10);
                 $this.searchAppoint();
+                $this.getServices();
 
                 $('.date-range').daterangepicker({
                     opens: 'left',

@@ -14,9 +14,15 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
 {
     public $dated;
 
-    public function __construct($dated)
+    public $service;
+
+    public $service_name;
+
+    public function __construct($dated, $service, $service_name)
     {
-        $this->dated = $dated;
+        $this->service      = $service;
+        $this->dated        = $dated;
+        $this->service_name = $service_name;
     }
 
     /**
@@ -26,6 +32,7 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
     {
         $no     = 0;
         $result = Appointment::query()
+                             ->where('service', $this->service)
                              ->where('date_appoint', $this->dated)
                              ->where('customer_id', '<>', '')
                              ->with(['hasOneCustomer', 'hasOneService'])
@@ -48,7 +55,7 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
     public function headings(): array
     {
         return [
-            ['Appointment Details for ' . Carbon::parse($this->dated)->format('F j, Y')],
+            ["{$this->service_name} Appointment Details for " . Carbon::parse($this->dated)->format('F j, Y')],
             [],
             [
                 'Record No#',
