@@ -184,7 +184,7 @@
                             <div class="col">
                                 <label class="fw-bolder">Service</label>
                                 <select class="form-control" v-model="service_selected">
-                                    <option v-for="(item, idx) in services" v-bind:value="item.id" v-bind:selected="idx === 0">@{{ item.name }}</option>
+                                    <option v-for="(item, idx) in services" v-bind:value="item.id">@{{ item.name }}</option>
                                 </select>
                             </div>
                         </div>
@@ -247,6 +247,7 @@
                     axios.post('{{ route('home.services') }}')
                         .then(function (value) {
                             $this.services = value.data;
+                            $this.service_selected = value.data[0]['id'];
                         });
                 },
                 searchAppoint() {
