@@ -66,9 +66,9 @@
                                 </div>
                             </form>
 
-                            <div class="text-center pt-3">No Account? Sign up
-                                <a href="{{ route('register') }}">here</a>.
-                            </div>
+{{--                            <div class="text-center pt-3">No Account? Sign up--}}
+{{--                                <a href="{{ route('register') }}">here</a>.--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                 </div>

@@ -17,9 +17,7 @@ Route::post('get/details', [BookingController::class, 'details'])->name('details
 Route::post('reserve', [BookingController::class, 'reserve'])->name('reserve');
 Route::get('confirm/book/{id}', [BookingController::class, 'confirmPage'])->name('confirm.book');
 
-Auth::routes([
-    'register' => false,
-]);
+Auth::routes(['verify' => true, 'register' => false]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
