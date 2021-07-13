@@ -16,6 +16,7 @@ class Service extends Model
         'time',
         'buffer',
         'private_service',
+        'ordering',
         'color',
         'video_meeting',
         'created_by'

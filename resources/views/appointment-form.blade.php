@@ -18,9 +18,13 @@
                 <div class="col-12 mb-1">
                     <h3>Service</h3>
                 </div>
-                <div class="col-12 mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Name</label>
+                <div class="col-9 mb-3">
+                    <label class="form-label">Name</label>
                     <input type="email" class="form-control" v-model="service.name">
+                </div>
+                <div class="col-3 mb-3">
+                    <label class="form-label">Ordering</label>
+                    <input type="number" class="form-control" v-model="service.ordering">
                 </div>
                 <div class="col-12 mb-3">
                     <textarea rows="8" id="editor">@{{ service.desc }}</textarea>

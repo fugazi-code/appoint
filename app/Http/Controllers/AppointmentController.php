@@ -41,6 +41,7 @@ class AppointmentController extends Controller
             [
                 'name'            => $service['name'],
                 'desc'            => $service['desc'],
+                'ordering'        => $service['ordering'],
                 'cost'            => 0,
                 'time'            => 0,
                 'buffer'          => 0,

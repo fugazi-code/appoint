@@ -17,7 +17,7 @@ class BookingController extends Controller
 {
     public function index($id)
     {
-        $services = fractal(Service::query()->where('created_by', $id)->get(), function ($value) {
+        $services = fractal(Service::query()->where('created_by', $id)->orderBy('ordering', 'asc')->get(), function ($value) {
             $value->booking_link = route('book', ['id' => Crypt::encrypt($value->id)]);
 
             return collect($value)->toArray();
