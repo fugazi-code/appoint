@@ -37,15 +37,26 @@
     @endisset
     </div>
 </main>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">
+            <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                                <a target="_blank" href="https://www.facebook.com/YaraMay-CMS-1471889562872452">
+                                    Yaramay Computer Maintenance Services
+                                </a>
+                            </p>
+        </span>
+    </div>
+</footer>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
         @isset($component)
-        const app = new Vue({
-                el: '#app'
-            });
+    const app = new Vue({
+            el: '#app'
+        });
     @endisset
-        // Author: Renier R. Trenuela II
+    // Author: Renier R. Trenuela II
 </script>
 
 @yield('scripts')
