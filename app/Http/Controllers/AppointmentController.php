@@ -110,7 +110,7 @@ class AppointmentController extends Controller
     {
         $open = DB::select("SELECT COUNT(*) as slot, date_appoint, customer_id  FROM appointments a where a.customer_id  = '' and a.service = {$request->id} group by date_appoint, customer_id");
 
-        $closed = DB::select("SELECT COUNT(*) as slot, date_appoint, customer_id  FROM appointments a where a.customer_id  <> '' and a.service = {$request->id}  group by date_appoint, customer_id");
+        $closed = DB::select("SELECT COUNT(*) as slot, date_appoint FROM appointments a where a.customer_id <> '' and a.service = 1 group by date_appoint");
 
         return ['open_slot' => $open, 'close_slot' => $closed];
     }
