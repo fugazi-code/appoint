@@ -65,21 +65,21 @@
                             </div>
                             <div class="mb-1">
                                 <label class="fw-bold">Choose Time</label>
-                                <div class="d-flex flex-row">
+                                <div class="d-flex flex-column flex-sm-row">
                                     <div class="p-2 flex-shrink-1">
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-1 mb-sm-3">
                                             <span class="input-group-text">Time</span>
                                             <input type="time" class="form-control" v-model="time_temp">
                                         </div>
                                     </div>
                                     <div class="p-2 flex-shrink-1">
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-1 mb-sm-3">
                                             <span class="input-group-text">Slot</span>
                                             <input type="number" v-model="timeslot_count" class="form-control">
                                         </div>
                                     </div>
                                     <div class="p-2 flex-shrink-1">
-                                        <div class="input-group mb-0">
+                                        <div class="input-group mb-1 mb-sm-3">
                                             <span class="input-group-text">Interval</span>
                                             <input type="number" v-model="time_interval" class="form-control">
                                         </div>
