@@ -69,7 +69,10 @@
                                     <div class="p-2 flex-shrink-1">
                                         <div class="input-group mb-1 mb-md-3">
                                             <span class="input-group-text">Time</span>
-                                            <input type="time" class="form-control" v-model="time_temp">
+                                            <input type="time" name="appt-time"
+                                                   min="12:00" max="18:00" required
+                                                   pattern="[0-9]{2}:[0-9]{2}"
+                                                   class="form-control" v-model="time_temp">
                                         </div>
                                     </div>
                                     <div class="p-2 flex-shrink-1">
