@@ -123,7 +123,7 @@
                                         <button class="btn btn-info text-white" @click="confirmAndSubmit">Resend
                                             Resend E-mail Verification
                                         </button>
-                                        <a v-bind:href="'/service/1" class="btn btn-outline-dark mt-2">Back to Services</a>
+                                        <a v-bind:href="'/service/1'" class="btn btn-outline-dark mt-2">Back to Services</a>
                                     </div>
                                 </div>
                             </div>
