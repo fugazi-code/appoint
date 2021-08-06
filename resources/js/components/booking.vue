@@ -14,7 +14,8 @@
                         <div class="card-body shadow">
                             <div class="d-flex flex-row border-bottom">
                                 <div class="me-2">
-                                    <a v-bind:href="'/services/' + overview.service.created_by" class="mt-1 btn btn-sm btn-primary text-white mb-2">
+                                    <a v-bind:href="'/services/' + overview.service.created_by"
+                                       class="mt-1 btn btn-sm btn-primary text-white mb-2">
                                         <i class="fas fa-arrow-alt-circle-left"></i> Back
                                     </a>
                                 </div>
@@ -42,10 +43,11 @@
                                                 <div class="fw-bold">{{ item.time_appoint }}</div>
                                             </div>
                                             <button v-if="!item.customer_id" class="btn btn-sm btn-outline-success py-0"
-                                                    @click="reserve(item.id)">Reserve
+                                                    @click="reserve(item.id, item.date_appoint)">Reserve
                                             </button>
                                             <div v-if="item.customer_id">
-                                                {{ item.time_appoint_booked }}<div class="fw-bold">Already Booked!</div>
+                                                {{ item.time_appoint_booked }}
+                                                <div class="fw-bold">Already Booked!</div>
                                             </div>
                                         </li>
                                     </ol>
@@ -123,7 +125,8 @@
                                         <button class="btn btn-info text-white" @click="confirmAndSubmit">Resend
                                             Resend E-mail Verification
                                         </button>
-                                        <a v-bind:href="'/services/' + overview.id" class="btn btn-outline-dark mt-2">Back to Services</a>
+                                        <a v-bind:href="'/services/' + overview.service.created_by" class="btn btn-outline-dark mt-2">Back
+                                            to Services</a>
                                     </div>
                                 </div>
                             </div>
@@ -157,14 +160,26 @@
         methods: {
             confirmAndSubmit() {
                 var $this = this;
-                if($this.submitted === 0){
-                    $this.submitted = 1;
-                    axios.post(this.overview.reserve_link, this.reservation)
+                if ($this.submitted === 0) {
+                    axios.post(this.overview.reserve_checking_link, this.reservation)
                         .then(function (value) {
-                            if ($this.step === 3) {
-                                $this.step += 4
+                            if (value.data === 'none') {
+                                $this.submitted = 1;
+                                axios.post($this.overview.reserve_link, $this.reservation)
+                                    .then(function (value) {
+                                        if ($this.step === 3) {
+                                            $this.step += 4
+                                        } else {
+                                            $this.step = 3;
+                                        }
+                                    });
                             } else {
-                                $this.step = 3;
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Please see your E-mail!',
+                                    html: '<br>We need you to press the "Click Here" link' +
+                                        '<br>inside the E-mail',
+                                });
                             }
                         });
                 }
@@ -176,9 +191,10 @@
                     $this.reservation['other_details'] = value.data.data;
                 });
             },
-            reserve(id) {
+            reserve(id, appoint_date) {
                 this.step = 2;
-                this.reservation.appoint_id = id
+                this.reservation.appoint_id = id;
+                this.reservation.date_appoint = appoint_date;
             },
             getSlots() {
                 var $this = this;

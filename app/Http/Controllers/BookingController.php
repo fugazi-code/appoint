@@ -17,11 +17,12 @@ class BookingController extends Controller
 {
     public function index($id)
     {
-        $services = fractal(Service::query()->where('created_by', $id)->orderBy('ordering', 'asc')->get(), function ($value) {
-            $value->booking_link = route('book', ['id' => Crypt::encrypt($value->id)]);
+        $services = fractal(Service::query()->where('created_by', $id)->orderBy('ordering', 'asc')->get(),
+            function ($value) {
+                $value->booking_link = route('book', ['id' => Crypt::encrypt($value->id)]);
 
-            return collect($value)->toArray();
-        })->toArray()['data'];
+                return collect($value)->toArray();
+            })->toArray()['data'];
 
         $business = Business::query()->where('id', $id)->first();
 
@@ -31,14 +32,16 @@ class BookingController extends Controller
     public function book(Request $request)
     {
         $id = Crypt::decrypt($request->id);
+
         return view('layouts.external', [
             'component' => 'booking-page',
             'data'      => [
-                'id'                 => $id,
-                'service'            => Service::query()->where('id', $id)->first(),
-                'slots_link'         => route('slots'),
-                'other_details_link' => route('details'),
-                'reserve_link'       => route('reserve'),
+                'id'                    => $id,
+                'service'               => Service::query()->where('id', $id)->first(),
+                'slots_link'            => route('slots'),
+                'other_details_link'    => route('details'),
+                'reserve_link'          => route('reserve'),
+                'reserve_checking_link' => route('reserve.checking'),
             ],
         ]);
     }
@@ -66,6 +69,15 @@ class BookingController extends Controller
                 'value' => '',
             ];
         });
+    }
+
+    public function reserveChecking(Request $request)
+    {
+        return Customer::query()
+                       ->join('appointments as a', 'a.id', '=', 'customers.appoint_id')
+                       ->where('a.date_appoint', Carbon::parse($request->date_appoint)->format('Y-m-d'))
+                       ->where('email', $request->email)
+                       ->count() > 0 ? 'exist' : 'none';
     }
 
     public function reserve(Request $request)
@@ -96,11 +108,11 @@ class BookingController extends Controller
     {
         $appoint_id = decrypt($request->id);
 
-//        $temp = Appointment::query()->where('id', $appoint_id)->first()->customer_id;
-//
-//        if ($temp != '') {
-//            return 'Page has expired. Booking already been taken.';
-//        }
+        //        $temp = Appointment::query()->where('id', $appoint_id)->first()->customer_id;
+        //
+        //        if ($temp != '') {
+        //            return 'Page has expired. Booking already been taken.';
+        //        }
 
         Customer::query()
                 ->where('appoint_id', $appoint_id)

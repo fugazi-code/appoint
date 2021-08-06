@@ -10,10 +10,11 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\BookingController;
 
-Route::get('/services/{id}', [BookingController::class, 'index']);
-Route::get('/booking/{id}', [BookingController::class, 'book'])->name('book');
+Route::get('services/{id}', [BookingController::class, 'index']);
+Route::get('booking/{id}', [BookingController::class, 'book'])->name('book');
 Route::post('get/slots', [BookingController::class, 'slots'])->name('slots');
 Route::post('get/details', [BookingController::class, 'details'])->name('details');
+Route::post('checking/reserve', [BookingController::class, 'reserveChecking'])->name('reserve.checking');
 Route::post('reserve', [BookingController::class, 'reserve'])->name('reserve');
 Route::get('confirm/book/{id}', [BookingController::class, 'confirmPage'])->name('confirm.book');
 
