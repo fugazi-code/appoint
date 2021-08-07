@@ -41,8 +41,8 @@
     <div class="container">
         <span class="text-muted">
             <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                                <a target="_blank" href="https://www.facebook.com/YaraMay-CMS-1471889562872452">
-                                    Yaramay Computer Maintenance Services
+                                <a target="_blank" href="{{ env('APP_NAME_LINK') }}">
+                                    {{ env('APP_NAME') }}
                                 </a>
                             </p>
         </span>
