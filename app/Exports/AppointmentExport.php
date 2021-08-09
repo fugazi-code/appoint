@@ -55,6 +55,8 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
                                      'date_appoint'  => Carbon::parse($value['date_appoint'])->format('F j, Y'),
                                      'time_appoint'  => Carbon::parse($value['time_appoint'])->format('h:m A'),
                                      'is_verified'   => $value['hasOneCustomer']['is_verified'],
+                                     'email'         => $value['hasOneCustomer']['email'],
+                                     'date_booked'   => $value['hasOneCustomer']['created_at'],
                                      'other_details' => $other_details_string,
                                  ];
                              });
@@ -74,6 +76,8 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
                 'Date',
                 'Time',
                 'Code',
+                'E-mail Used',
+                'Date Booked',
                 'Other Details',
             ],
         ];
