@@ -92,7 +92,7 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
             'D' => 20,
             'E' => 20,
             'F' => 20,
-            'G' => 100,
+            'G' => 20,
         ];
     }
 }
