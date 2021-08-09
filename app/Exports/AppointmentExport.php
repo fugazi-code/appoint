@@ -4,11 +4,9 @@ namespace App\Exports;
 
 use Carbon\Carbon;
 use App\Models\Appointment;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
 class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidths
 {
@@ -17,6 +15,8 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
     public $service;
 
     public $service_name;
+
+    public $no = 0;
 
     public function __construct($dated, $service, $service_name)
     {
@@ -30,7 +30,6 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
      */
     public function collection()
     {
-        $no     = 0;
         $result = Appointment::query()
                              ->where('service', $this->service)
                              ->where('date_appoint', $this->dated)
@@ -38,23 +37,25 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
                              ->with(['hasOneCustomer', 'hasOneService'])
                              ->orderBy('time_appoint')
                              ->get()
-                             ->transform(function ($value) use ($no) {
-                                 $no                   = $no + 1;
+                             ->transform(function ($value) {
+                                 $this->no             = $this->no + 1;
                                  $other_details        = json_decode($value['hasOneCustomer']['other_details']);
                                  $other_details_string = '';
 
                                  foreach ($other_details as $key => $val) {
-                                     $other_details_string .= "{$val->field}:  {$val->value} \n";
+                                     if ($val->value != '') {
+                                         $other_details_string .= "{$val->field}:  {$val->value} \n";
+                                     }
                                  }
 
                                  return [
-                                     'no'            => $no,
+                                     'no'            => $this->no,
                                      'customer_name' => $value['hasOneCustomer']['name'],
                                      'service'       => $value['hasOneService']['name'],
                                      'date_appoint'  => Carbon::parse($value['date_appoint'])->format('F j, Y'),
                                      'time_appoint'  => Carbon::parse($value['time_appoint'])->format('h:m A'),
                                      'is_verified'   => $value['hasOneCustomer']['is_verified'],
-                                     'other_details' => $other_details_string
+                                     'other_details' => $other_details_string,
                                  ];
                              });
 
@@ -87,6 +88,7 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
             'D' => 20,
             'E' => 20,
             'F' => 20,
+            'G' => 100,
         ];
     }
 }
