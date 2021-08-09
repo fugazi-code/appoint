@@ -39,13 +39,21 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
                              ->orderBy('time_appoint')
                              ->get()
                              ->transform(function ($value) use ($no) {
+                                 $no                   = $no + 1;
+                                 $other_details        = json_decode($value['hasOneCustomer']['is_verified']);
+                                 $other_details_string = '';
+                                 foreach ($other_details as $key => $value) {
+                                     $other_details_string .= "{$key}:  {$value}";
+                                 }
+
                                  return [
-                                     'no'            => ++$no,
+                                     'no'            => $no,
                                      'customer_name' => $value['hasOneCustomer']['name'],
                                      'service'       => $value['hasOneService']['name'],
                                      'date_appoint'  => Carbon::parse($value['date_appoint'])->format('F j, Y'),
                                      'time_appoint'  => Carbon::parse($value['time_appoint'])->format('h:m A'),
                                      'is_verified'   => $value['hasOneCustomer']['is_verified'],
+                                     'other_details' => $other_details_string
                                  ];
                              });
 
@@ -64,6 +72,7 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
                 'Date',
                 'Time',
                 'Code',
+                'Other Details',
             ],
         ];
     }
