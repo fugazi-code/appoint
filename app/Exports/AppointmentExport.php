@@ -42,8 +42,8 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
                                  $no                   = $no + 1;
                                  $other_details        = json_decode($value['hasOneCustomer']['is_verified']);
                                  $other_details_string = '';
-                                 foreach ($other_details as $key => $value) {
-                                     $other_details_string .= "{$key}:  {$value}";
+                                 foreach ($other_details as $key => $val) {
+                                     $other_details_string .= "{$key}:  {$val}";
                                  }
 
                                  return [
