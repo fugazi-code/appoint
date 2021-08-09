@@ -44,7 +44,7 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
                                  $other_details_string = '';
 
                                  foreach ($other_details as $key => $val) {
-                                     $other_details_string .= "{$val->field}:  {$val->value}";
+                                     $other_details_string .= "{$val->field}:  {$val->value} \n";
                                  }
 
                                  return [
