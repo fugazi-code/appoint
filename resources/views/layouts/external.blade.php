@@ -41,7 +41,7 @@
     <div class="container">
         <span class="text-muted">
             <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                                <a target="_blank" href="{{ env('APP_NAME_LINK') }}">
+                                <a target="_blank" href="{{ env('APP_LINK') }}">
                                     {{ env('APP_NAME') }}
                                 </a>
                             </p>
