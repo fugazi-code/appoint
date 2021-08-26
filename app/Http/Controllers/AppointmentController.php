@@ -77,20 +77,6 @@ class AppointmentController extends Controller
                     'notes'        => '',
                 ]
             );
-
-//            Mail::send([], [], function ($message) use ($request, $value) {
-//                $dated = Carbon::parse($request->schedule['sched_date'])->format('F j, Y');
-//                $timed = Carbon::parse($value['time_appoint'])->format('H:iA');
-//                $now   = now();
-//                $message->to(['yaramayservices@gmail.com', 'sab_princes@yahoo.com'])
-//                        ->from('do-not-reply@poloksa-ph.com')
-//                        ->subject("SLOT OPENED - POLO-KSA {$now}")
-//                        ->setBody("
-//                        Service: {$request->service['name']}
-//                        Date of Appointment: {$dated}
-//                        Time: {$timed}
-//                        ");
-//            });
         }
 
         return ['success' => 'New Appoint has been added!'];
