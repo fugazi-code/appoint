@@ -39,10 +39,10 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
                              ->get()
                              ->transform(function ($value) {
                                  $this->no             = $this->no + 1;
-                                 dd($value);
                                  $other_details        = json_decode($value['hasOneCustomer']['other_details']);
                                  $other_details_string = '';
 
+                                 dump($value['hasOneCustomer']['other_details']);
                                  foreach ($other_details as $key => $val) {
                                      if ($val->value != '') {
                                          $other_details_string .= "{$val->field}:  {$val->value} \n";
