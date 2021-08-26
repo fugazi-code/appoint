@@ -42,13 +42,13 @@ class AppointmentExport implements FromCollection, WithHeadings, WithColumnWidth
                                  $other_details        = json_decode($value['hasOneCustomer']['other_details']);
                                  $other_details_string = '';
 
-                                 dump($value['hasOneCustomer']['other_details']);
-                                 dump(json_decode($value['hasOneCustomer']['other_details']));
-//                                 foreach ($other_details as $key => $val) {
-//                                     if ($val->value != '') {
-//                                         $other_details_string .= "{$val->field}:  {$val->value} \n";
-//                                     }
-//                                 }
+                                 if($other_details) {
+                                     foreach ($other_details as $key => $val) {
+                                         if ($val->value != '') {
+                                             $other_details_string .= "{$val->field}:  {$val->value} \n";
+                                         }
+                                     }
+                                 }
 
                                  return [
                                      'no'            => $this->no,
