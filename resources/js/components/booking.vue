@@ -74,11 +74,13 @@
                             <div class="row mt-3">
                                 <div class="col-6 mt-1">
                                     <label>Full Name</label>
-                                    <input class="form-control" v-model="reservation.name">
+                                    <input class="form-control" v-model="reservation.name"
+                                           v-bind:class="{'is-valid':reservation.name, 'is-invalid':!reservation.name, }">
                                 </div>
                                 <div class="col-6 mt-1">
                                     <label>E-mail</label>
-                                    <input class="form-control" v-model="reservation.email">
+                                    <input class="form-control" v-model="reservation.email"
+                                           v-bind:class="{'is-valid':reservation.email, 'is-invalid':!reservation.email, }">
                                 </div>
                                 <div class="col-6 mt-1">
                                     <label>Contact Number</label>
@@ -125,7 +127,8 @@
                                         <button class="btn btn-info text-white" @click="confirmAndSubmit">Resend
                                             Resend E-mail Verification
                                         </button>
-                                        <a v-bind:href="'/services/' + overview.service.created_by" class="btn btn-outline-dark mt-2">Back
+                                        <a v-bind:href="'/services/' + overview.service.created_by"
+                                           class="btn btn-outline-dark mt-2">Back
                                             to Services</a>
                                     </div>
                                 </div>
@@ -139,90 +142,98 @@
 </template>
 
 <script>
-    export default {
-        props: ['data'],
-        data() {
-            return {
-                step: 1,
-                overview: JSON.parse(this.$props.data),
-                input_date: null,
-                time_slots: [],
-                other_details: [],
-                reservation: {
-                    service_id: null,
-                    appoint_id: null,
-                    name: null,
-                    email: null,
-                },
-                submitted: 0,
-            };
-        },
-        methods: {
-            confirmAndSubmit() {
-                var $this = this;
-                if ($this.submitted === 0) {
-                    axios.post(this.overview.reserve_checking_link, this.reservation)
-                        .then(function (value) {
-                            if (value.data === 'none') {
-                                $this.submitted = 1;
-                                axios.post($this.overview.reserve_link, $this.reservation)
-                                    .then(function (value) {
-                                        if ($this.step === 3) {
-                                            $this.step += 4
-                                        } else {
-                                            $this.step = 3;
-                                        }
-                                    });
-                            } else {
-                                Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Please see your E-mail!',
-                                    html: '<br>We need you to press the "Click Here" link' +
-                                        '<br>inside the E-mail',
+export default {
+    props: ['data'],
+    data() {
+        return {
+            step: 1,
+            overview: JSON.parse(this.$props.data),
+            input_date: null,
+            time_slots: [],
+            other_details: [],
+            reservation: {
+                service_id: null,
+                appoint_id: null,
+                name: '',
+                email: '',
+            },
+            submitted: 0,
+        };
+    },
+    methods: {
+        confirmAndSubmit() {
+            var $this = this;
+            if ($this.reservation.name == '' || $this.reservation.email == '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please fill all required fields.',
+                    html: 'Please try again!',
+                });
+                return false;
+            }
+            if ($this.submitted === 0) {
+                axios.post(this.overview.reserve_checking_link, this.reservation)
+                    .then(function (value) {
+                        if (value.data === 'none') {
+                            $this.submitted = 1;
+                            axios.post($this.overview.reserve_link, $this.reservation)
+                                .then(function (value) {
+                                    if ($this.step === 3) {
+                                        $this.step += 4
+                                    } else {
+                                        $this.step = 3;
+                                    }
                                 });
-                            }
-                        });
-                }
-            },
-            getOtherDetails() {
-                var $this = this;
-                axios.post(this.overview.other_details_link).then(function (value) {
-                    $this.other_details = value.data.data;
-                    $this.reservation['other_details'] = value.data.data;
-                });
-            },
-            reserve(id, appoint_date) {
-                this.step = 2;
-                this.reservation.appoint_id = id;
-                this.reservation.date_appoint = appoint_date;
-            },
-            getSlots() {
-                var $this = this;
-                axios.post(this.overview.slots_link, {
-                    'input_date': this.input_date,
-                    'service': this.overview.id
-                }).then(function (value) {
-                    $this.time_slots = value.data.data;
-                });
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Please see your E-mail!',
+                                html: '<br>We need you to press the "Click Here" link' +
+                                    '<br>inside the E-mail',
+                            });
+                        }
+                    });
             }
         },
-        mounted() {
-            this.input_date = new Date().toISOString().slice(0, 10);
-            this.getSlots();
-            this.reservation.service_id = this.overview.id;
-            this.getOtherDetails();
-
-            var dtToday = new Date();
-            var month = dtToday.getMonth() + 1;
-            var day = dtToday.getDate();
-            var year = dtToday.getFullYear();
-            if (month < 10)
-                month = '0' + month.toString();
-            if (day < 10)
-                day = '0' + day.toString();
-
-            var maxDate = year + '-' + month + '-' + day;
-            $('#txtDate').attr('min', maxDate);
+        getOtherDetails() {
+            var $this = this;
+            axios.post(this.overview.other_details_link).then(function (value) {
+                $this.other_details = value.data.data;
+                $this.reservation['other_details'] = value.data.data;
+            });
         },
-    }
+        reserve(id, appoint_date) {
+            this.step = 2;
+            this.reservation.appoint_id = id;
+            this.reservation.date_appoint = appoint_date;
+        },
+        getSlots() {
+            var $this = this;
+            axios.post(this.overview.slots_link, {
+                'input_date': this.input_date,
+                'service': this.overview.id
+            }).then(function (value) {
+                $this.time_slots = value.data.data;
+            });
+        }
+    },
+    mounted() {
+        this.input_date = new Date().toISOString().slice(0, 10);
+        this.getSlots();
+        this.reservation.service_id = this.overview.id;
+        this.getOtherDetails();
+
+        var dtToday = new Date();
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        $('#txtDate').attr('min', maxDate);
+    },
+}
 </script>
