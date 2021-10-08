@@ -127,7 +127,7 @@
                                         <button class="btn btn-info text-white" @click="confirmAndSubmit">Resend
                                             Resend E-mail Verification
                                         </button>
-                                        <a v-bind:href="'/services/' + overview.service.created_by"
+                                        <a v-bind:href="'/services/1'"
                                            class="btn btn-outline-dark mt-2">Back
                                             to Services</a>
                                     </div>
