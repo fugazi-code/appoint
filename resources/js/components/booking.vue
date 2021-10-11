@@ -84,7 +84,8 @@
                                 </div>
                                 <div class="col-6 mt-1">
                                     <label>Contact Number</label>
-                                    <input class="form-control" v-model="reservation.phone">
+                                    <input class="form-control" v-model="reservation.phone"
+                                           v-bind:class="{'is-valid':reservation.phone, 'is-invalid':!reservation.phone, }">
                                 </div>
                                 <div class="col-6 mt-1" v-for="item in reservation.other_details">
                                     <label>{{ item.field }}</label>
@@ -162,8 +163,8 @@ export default {
     },
     methods: {
         confirmAndSubmit() {
-            var $this = this;
-            if ($this.reservation.name == '' || $this.reservation.email == '') {
+            let $this = this;
+            if ($this.reservation.name == '' || $this.reservation.email == '' || $this.reservation.phone == '') {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Please fill all required fields.',
