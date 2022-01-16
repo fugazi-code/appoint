@@ -47,7 +47,7 @@
                                             </button>
                                             <div v-if="item.customer_id">
                                                 {{ item.time_appoint_booked }}
-                                                <div class="fw-bold">Already Booked!</div>
+                                                <div class="fw-bold"><i class="fas fa-ban text-danger"></i> Closed</div>
                                             </div>
                                         </li>
                                     </ol>
