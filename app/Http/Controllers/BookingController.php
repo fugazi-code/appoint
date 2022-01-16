@@ -121,6 +121,7 @@ class BookingController extends Controller
         $service     = Service::query()->where('id', $appointment->service)->first();
         $customer    = Customer::query()
                                ->where('appoint_id', $appoint_id)
+                               ->orderBy('id', 'desc')
                                ->with(['serviceHasOne', 'appointmentHasOne'])
                                ->first()->toArray();
 
