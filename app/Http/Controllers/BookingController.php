@@ -49,9 +49,9 @@ class BookingController extends Controller
     public function slots(Request $request)
     {
         $appointments = Appointment::query()
-                                   ->where('service', $request->service)
-                                   ->where('date_appoint', Carbon::parse($request->input_date)->format('Y-m-d'))
-                                   ->get()->toArray();
+            ->where('service', $request->service)
+            ->where('date_appoint', Carbon::parse($request->input_date)->format('Y-m-d'))
+            ->get()->toArray();
 
         return fractal($appointments, function ($value) {
             $value['time_appoint'] = Carbon::parse($value['time_appoint'])->format('h:iA');
@@ -74,19 +74,19 @@ class BookingController extends Controller
     public function reserveChecking(Request $request)
     {
         return Customer::query()
-                       ->join('appointments as a', 'a.id', '=', 'customers.appoint_id')
-                       ->where('a.date_appoint', Carbon::parse($request->date_appoint)->format('Y-m-d'))
-                       ->where('email', $request->email)
-                       ->count() > 0 ? 'exist' : 'none';
+            ->join('appointments as a', 'a.id', '=', 'customers.appoint_id')
+            ->where('a.date_appoint', Carbon::parse($request->date_appoint)->format('Y-m-d'))
+            ->where('email', $request->email)
+            ->count() > 0 ? 'exist' : 'none';
     }
 
     public function reserve(Request $request)
     {
         $appointment = Appointment::query()
-                                  ->where('id', $request->appoint_id)
-                                  ->with(['hasOneService'])
-                                  ->first()
-                                  ->toArray();
+            ->where('id', $request->appoint_id)
+            ->with(['hasOneService'])
+            ->first()
+            ->toArray();
 
         $customer = Customer::create([
             'service_id'    => $appointment['has_one_service']['id'],
@@ -109,21 +109,24 @@ class BookingController extends Controller
         $appoint_id = decrypt($request->id);
 
         Customer::query()
-                ->where('appoint_id', $appoint_id)
-                ->where('is_verified', 'no')
-                ->update(['is_verified' => substr(encrypt($appoint_id), -6, -1)]);
+            ->where('appoint_id', $appoint_id)
+            ->where('is_verified', 'no')
+            ->update(['is_verified' => substr(encrypt($appoint_id), -6, -1)]);
 
         $customer_id = Customer::query()->where('appoint_id', $appoint_id)->first()->id;
 
-        Appointment::query()->where('id', $appoint_id)->update(['customer_id' => $customer_id]);
+        Appointment::query()
+            ->where('id', $appoint_id)
+            ->whereNull('customer_id')
+            ->update(['customer_id' => $customer_id]);
 
         $appointment = Appointment::query()->where('id', $appoint_id)->first();
         $service     = Service::query()->where('id', $appointment->service)->first();
         $customer    = Customer::query()
-                               ->where('appoint_id', $appoint_id)
-                               ->orderBy('id', 'desc')
-                               ->with(['serviceHasOne', 'appointmentHasOne'])
-                               ->first()->toArray();
+            ->where('appoint_id', $appoint_id)
+            ->orderBy('id', 'desc')
+            ->with(['serviceHasOne', 'appointmentHasOne'])
+            ->first()->toArray();
 
         $business = Business::query()->where('id', $service->created_by)->first();
 
