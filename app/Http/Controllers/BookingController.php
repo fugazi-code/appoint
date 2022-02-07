@@ -117,7 +117,7 @@ class BookingController extends Controller
 
         Appointment::query()
             ->where('id', $appoint_id)
-            ->whereNull('customer_id')
+            ->where('customer_id', '')
             ->update(['customer_id' => $customer_id]);
 
         $appointment = Appointment::query()->where('id', $appoint_id)->first();
