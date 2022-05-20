@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewAppointmentEmail;
+use App\Mail\NewBookedEmail;
 use Carbon\Carbon;
 use App\Models\Service;
 use App\Models\Appointment;
@@ -52,7 +54,7 @@ class AppointmentController extends Controller
             ]
         );
 
-        return ['success' => 'New Appoint has been added!'];
+        return ['success' => 'New Service has been added!'];
     }
 
     public function show($id)
@@ -78,6 +80,9 @@ class AppointmentController extends Controller
                 ]
             );
         }
+
+
+        Mail::to(['renier.trenuela@gmail.com'])->send(new NewAppointmentEmail($request->service['name']));
 
         return ['success' => 'New Appoint has been added!'];
     }
