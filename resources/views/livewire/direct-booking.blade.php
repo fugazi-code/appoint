@@ -10,7 +10,12 @@
             </select>
         </div>
         <div class="col-md-4">
-            <label for="exampleInputEmail1">Open Slots</label>
+            <label for="exampleInputEmail1">
+                Open Slots <span class="badge badge-pill badge-warning">{{ count($openSlots) }}</span>
+                <div class="spinner-border" role="status" wire:loading>
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </label>
             <select class="form-control" wire:model="appointId">
                 <option value=""> -- Select Slots -- </option>
                 @foreach($openSlots as $key => $slot)
@@ -18,7 +23,6 @@
                 @endforeach
             </select>
         </div>
-
         <div class="col-md-12">
             <div class="row mt-3">
                 <div class="col-6 mt-1">
@@ -43,9 +47,9 @@
                 </div>
             </div>
         </div>
-
         <div class="col-12 mt-3">
             <button type="submit" class="btn btn-primary" wire:click="reserve">Submit</button>
+            <button type="submit" class="btn btn-warning" wire:click="refreshAppointment">Refresh Appointments</button>
         </div>
     </div>
 </div>

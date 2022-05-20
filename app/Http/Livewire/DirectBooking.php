@@ -33,11 +33,7 @@ class DirectBooking extends Component
 
     public function updatedServiceId()
     {
-        $this->openSlots = Appointment::query()
-            ->where('date_appoint', '>=', now())
-            ->where('service', $this->serviceId)
-            ->where('customer_id', '')
-            ->get();
+        $this->refreshAppointment();
     }
 
     public function reserve()
@@ -73,5 +69,14 @@ class DirectBooking extends Component
         $this->iqama = '';
         $this->serviceId = '';
         $this->appointId = '';
+    }
+
+    public function refreshAppointment()
+    {
+        $this->openSlots = Appointment::query()
+            ->where('date_appoint', '>=', now())
+            ->where('service', $this->serviceId)
+            ->where('customer_id', '')
+            ->get();
     }
 }
