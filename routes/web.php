@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RolesController;
+use App\Http\Livewire\DirectBooking;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\HomeController;
@@ -17,6 +18,8 @@ Route::post('get/details', [BookingController::class, 'details'])->name('details
 Route::post('checking/reserve', [BookingController::class, 'reserveChecking'])->name('reserve.checking');
 Route::post('reserve', [BookingController::class, 'reserve'])->name('reserve');
 Route::get('confirm/book/{id}', [BookingController::class, 'confirmPage'])->name('confirm.book');
+
+Route::get('direct-booking', DirectBooking::class)->name('direct-booking');
 
 Auth::routes(['verify' => true, 'register' => false]);
 
