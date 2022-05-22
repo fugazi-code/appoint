@@ -81,8 +81,9 @@ class AppointmentController extends Controller
             );
         }
 
-
-        Mail::to(['renier.trenuela@gmail.com'])->send(new NewAppointmentEmail($request->service['name']));
+        if($request->service['id'] == 8) {
+            Mail::to(['renier.trenuela@gmail.com'])->send(new NewAppointmentEmail($request->service['name']));
+        }
 
         return ['success' => 'New Appoint has been added!'];
     }
