@@ -38,14 +38,14 @@
                                             <i class="fas fa-clock mt-1 me-2"></i> Time Slots
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-start"
-                                            v-for="item in time_slots">
+                                            v-for="(item, key) in time_slots">
                                             <div class="ms-2 me-auto">
                                                 <div class="fw-bold">{{ item.time_appoint }}</div>
                                             </div>
-                                            <button v-if="!item.customer_id" class="btn btn-sm btn-outline-success py-0"
+                                            <button v-if="!item.customer_id && (key + 1) > rs" class="btn btn-sm btn-outline-success py-0"
                                                     @click="reserve(item.id, item.date_appoint)">Reserve
                                             </button>
-                                            <div v-if="item.customer_id">
+                                            <div v-else>
                                                 {{ item.time_appoint_booked }}
                                                 <div class="fw-bold"><i class="fas fa-ban text-danger"></i> Closed</div>
                                             </div>
@@ -159,6 +159,7 @@ export default {
                 email: '',
             },
             submitted: 0,
+            rs: 0,
         };
     },
     methods: {
@@ -214,7 +215,8 @@ export default {
                 'input_date': this.input_date,
                 'service': this.overview.id
             }).then(function (value) {
-                $this.time_slots = value.data.data;
+                $this.time_slots = value.data.scheds.data;
+                $this.rs = value.data.rs
             });
         }
     },

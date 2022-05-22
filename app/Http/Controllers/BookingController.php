@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\Service;
-use App\Models\Customer;
-use App\Models\Business;
-use App\Models\Appointment;
-use App\Models\OtherDetail;
-use Illuminate\Http\Request;
 use App\Mail\NewBookedEmail;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Appointment;
+use App\Models\Business;
+use App\Models\Customer;
+use App\Models\OtherDetail;
+use App\Models\Reservation;
+use App\Models\Service;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -48,16 +49,24 @@ class BookingController extends Controller
 
     public function slots(Request $request)
     {
+        $rs = Reservation::query()
+            ->where('service', $request->service)
+            ->where('date_appoint', Carbon::parse($request->input_date)->format('Y-m-d'))
+            ->sum('slots');
+
         $appointments = Appointment::query()
             ->where('service', $request->service)
             ->where('date_appoint', Carbon::parse($request->input_date)->format('Y-m-d'))
             ->get()->toArray();
 
-        return fractal($appointments, function ($value) {
-            $value['time_appoint'] = Carbon::parse($value['time_appoint'])->format('h:iA');
+        return [
+            'scheds' => fractal($appointments, function ($value) use ($rs) {
+                $value['time_appoint'] = Carbon::parse($value['time_appoint'])->format('h:iA');
 
-            return $value;
-        });
+                return $value;
+            }),
+            'rs'     => $rs,
+        ];
     }
 
     public function details()
