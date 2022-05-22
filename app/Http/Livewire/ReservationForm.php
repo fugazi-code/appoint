@@ -8,10 +8,12 @@ use Livewire\Component;
 
 class ReservationForm extends Component
 {
-    public $services;
-    public $serviceId;
-    public $dateAppoint;
-    public $slot;
+    public    $services;
+    public    $reserveId;
+    public    $serviceId;
+    public    $dateAppoint;
+    public    $slot;
+    protected $listeners = ['bindEditReserve' => 'bindEdit'];
 
     public function mount()
     {
@@ -26,18 +28,30 @@ class ReservationForm extends Component
 
     public function resetValues()
     {
-        $this->serviceId = '';
+        $this->serviceId   = '';
         $this->dateAppoint = now()->format('Y-m-d');
-        $this->slot = 0;
+        $this->slot        = 0;
+        $this->reserveId   = null;
     }
 
     public function storeReserve()
     {
-        Reservation::create([
-            'service' => $this->serviceId,
-            'date_appoint' => $this->dateAppoint,
-            'slots' => $this->slot,
-        ]);
+        Reservation::query()->updateOrCreate(['id' => $this->reserveId],
+            [
+                'service'      => $this->serviceId,
+                'date_appoint' => $this->dateAppoint,
+                'slots'        => $this->slot,
+            ]);
         $this->emit('refreshDatatable');
+    }
+
+    public function bindEdit($params)
+    {
+        $this->resetValues();
+        $model             = Reservation::query()->findOrFail($params);
+        $this->serviceId   = $model->service;
+        $this->dateAppoint = $model->date_appoint;
+        $this->slot      = $model->slots;
+        $this->reserveId   = $model->id;
     }
 }

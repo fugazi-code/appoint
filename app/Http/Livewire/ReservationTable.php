@@ -32,9 +32,15 @@ class ReservationTable extends DataTableComponent
                     function ($value, $row, Column $column) {
                         return '
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-  <button type="button" class="btn btn-info">Edit</button>
-  <button type="button" class="btn btn-danger">Delete</button>
-</div>';
+                          <button type="button"
+                           class="btn btn-info"
+                           data-toggle="modal"
+                           data-target="#exampleModal"
+                          wire:click="$emit(\'bindEditReserve\', '.$row['id'].')">Edit</button>
+                          <button type="button"
+                          class="btn btn-danger"
+                          wire:click="delete('.$row['id'].')">Delete</button>
+                        </div>';
                     }
                 )
                 ->html(),
@@ -43,5 +49,10 @@ class ReservationTable extends DataTableComponent
 //            Column::make("Updated at", "updated_at")
 //                ->sortable(),
         ];
+    }
+
+    public function delete($id)
+    {
+        Reservation::destroy($id);
     }
 }
