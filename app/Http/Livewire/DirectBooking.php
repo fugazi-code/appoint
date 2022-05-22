@@ -23,7 +23,7 @@ class DirectBooking extends Component
 
     public function mount()
     {
-        $this->services = Service::all()->toArray();
+        $this->services = Service::all();
     }
 
     public function render()

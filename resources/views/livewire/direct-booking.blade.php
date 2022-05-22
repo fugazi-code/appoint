@@ -52,4 +52,10 @@
             <button type="submit" class="btn btn-warning" wire:click="refreshAppointment">Refresh Appointments</button>
         </div>
     </div>
+    <div class="row mt-5">
+        <livewire:reservation-table/>
+    </div>
+    <div class="row mt-5">
+        <livewire:reservation-form/>
+    </div>
 </div>
