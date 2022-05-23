@@ -32,6 +32,7 @@ class BookingController extends Controller
 
     public function book(Request $request)
     {
+        dump($request->ip());
         $id = Crypt::decrypt($request->id);
 
         return view('layouts.external', [
