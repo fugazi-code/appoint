@@ -3,13 +3,17 @@
 namespace App\Http\Livewire;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Customer;
 
 class CustomerTable extends DataTableComponent
 {
-    protected $model = Customer::class;
+    public function builder(): Builder
+    {
+        return Customer::query()->with(['serviceHasOne']);
+    }
 
     public function configure(): void
     {
@@ -21,7 +25,7 @@ class CustomerTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
-            Column::make("Service id", "service_id")
+            Column::make("Service id", "serviceHasOne.name")
                 ->searchable()
                 ->sortable(),
             Column::make("Name", "name")
