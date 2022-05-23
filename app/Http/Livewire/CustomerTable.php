@@ -12,7 +12,8 @@ class CustomerTable extends DataTableComponent
 {
     public function builder(): Builder
     {
-        return Customer::query()->with(['serviceHasOne']);
+        return Customer::query()
+            ->with(['serviceHasOne', 'appointmentHasOne']);
     }
 
     public function configure(): void
@@ -25,7 +26,10 @@ class CustomerTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
-            Column::make("Service id", "serviceHasOne.name")
+            Column::make("Service", "serviceHasOne.name")
+                ->searchable()
+                ->sortable(),
+            Column::make("Appoint Date", "appointmentHasOne.date_appoint")
                 ->searchable()
                 ->sortable(),
             Column::make("Name", "name")
