@@ -18,6 +18,7 @@ class Customer extends Model
         'email',
         'is_verified',
         'other_details',
+        'ip_address',
     ];
 
     public function serviceHasOne()

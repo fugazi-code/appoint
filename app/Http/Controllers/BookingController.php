@@ -104,6 +104,7 @@ class BookingController extends Controller
             'name'          => $request->name,
             'phone'         => $request->phone,
             'email'         => $request->email,
+            'ip_address'    => $request->ip(),
             'is_verified'   => 'no',
             'other_details' => json_encode($request->other_details),
         ]);
