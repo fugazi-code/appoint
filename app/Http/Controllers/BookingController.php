@@ -117,13 +117,12 @@ class BookingController extends Controller
     public function confirmPage(Request $request)
     {
         $appoint_id = decrypt($request->id);
+        $customer_id = Customer::query()->where('appoint_id', $appoint_id)->first()->id;
 
         Customer::query()
             ->where('appoint_id', $appoint_id)
             ->where('is_verified', 'no')
-            ->update(['is_verified' => substr(encrypt($appoint_id), -6, -1)]);
-
-        $customer_id = Customer::query()->where('appoint_id', $appoint_id)->first()->id;
+            ->update(['is_verified' => substr(encrypt($customer_id), -6, -1)]);
 
         Appointment::query()
             ->where('id', $appoint_id)
