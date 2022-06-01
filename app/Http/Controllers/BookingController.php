@@ -122,7 +122,7 @@ class BookingController extends Controller
         Customer::query()
             ->where('appoint_id', $appoint_id)
             ->where('is_verified', 'no')
-            ->update(['is_verified' => substr(encrypt($customer_id), -6, -1)]);
+            ->update(['is_verified' => substr(encrypt($appoint_id), -6, -1)]);
 
         Appointment::query()
             ->where('id', $appoint_id)
