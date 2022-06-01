@@ -10,6 +10,7 @@ use App\Models\OtherDetail;
 use App\Models\Reservation;
 use App\Models\Service;
 use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
@@ -119,10 +120,12 @@ class BookingController extends Controller
         $appoint_id = decrypt($request->id);
         $customer_id = Customer::query()->where('appoint_id', $appoint_id)->first()->id;
 
+       // $faker->uuid()
+        $faker = Factory::create();
         Customer::query()
             ->where('appoint_id', $appoint_id)
             ->where('is_verified', 'no')
-            ->update(['is_verified' => substr(encrypt($appoint_id), -6, -1)]);
+            ->update(['is_verified' => $faker->hexColor]);
 
         Appointment::query()
             ->where('id', $appoint_id)

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -41,6 +42,10 @@ class CustomerTable extends DataTableComponent
                 ->searchable()
                 ->sortable(),
             Column::make("Is verified", "is_verified")
+                ->format(
+                    fn($value, $row, Column $column) => "<a href='#' class='btn btn-sm btn-info' wire:click='randThis({$row->id})'>*</a> {$row->is_verified}"
+                )
+                ->html()
                 ->searchable()
                 ->sortable(),
             Column::make("Created At", "created_at")
@@ -51,5 +56,11 @@ class CustomerTable extends DataTableComponent
             Column::make("Ip address", "ip_address")
                 ->sortable(),
         ];
+    }
+
+    public function randThis($id)
+    {
+        $faker = Factory::create();
+        Customer::query()->where('id', $id)->update(['is_verified' => $faker->hexColor]);
     }
 }
