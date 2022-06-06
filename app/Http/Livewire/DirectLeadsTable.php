@@ -16,8 +16,9 @@ class DirectLeadsTable extends DataTableComponent
 
     public function configure(): void
     {
-        $this->setPrimaryKey('id');
-        $this->setTableWrapperAttributes(['style' => 'overflow-x:auto;'])
+        $this->setPrimaryKey('id')
+            ->setDefaultSort('id', 'desc')
+            ->setTableWrapperAttributes(['style' => 'overflow-x:auto;'])
             ->setTdAttributes(fn() =>['class' => 'bg-gray-100', 'style' => 'white-space: nowrap;'])
             ->setThAttributes(fn() =>['class' => 'bg-gray-100', 'style' => 'white-space: nowrap;']);
     }

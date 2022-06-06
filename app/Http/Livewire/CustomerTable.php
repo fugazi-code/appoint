@@ -19,7 +19,8 @@ class CustomerTable extends DataTableComponent
 
     public function configure(): void
     {
-        $this->setPrimaryKey('id');
+        $this->setPrimaryKey('id')
+            ->setDefaultSort('id', 'desc');
     }
 
     public function columns(): array
