@@ -24,5 +24,7 @@ class DirectLeads extends Component
                 ]);
             }
         }
+
+        $this->emit('refreshDatatable');
     }
 }
