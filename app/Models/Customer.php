@@ -30,4 +30,9 @@ class Customer extends Model
     {
         return $this->hasOne(Appointment::class, 'id', 'appoint_id');
     }
+
+    public function leads()
+    {
+        return $this->hasOne(Leads::class, 'customer_id', 'id');
+    }
 }

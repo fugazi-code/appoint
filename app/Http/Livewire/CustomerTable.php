@@ -62,14 +62,5 @@ class CustomerTable extends DataTableComponent
     {
         $faker = Factory::create();
         Customer::query()->where('id', $id)->update(['is_verified' => $faker->hexColor]);
-
-//        $ids =Customer::query()
-//           ->where('is_verified', 'I6IiJ')
-//            ->get()
-//            ->pluck('id');
-//        foreach ($ids as $value)
-//        {
-//            Customer::query()->where('id', $value)->update(['is_verified' => $faker->hexColor]);
-//        }
     }
 }
