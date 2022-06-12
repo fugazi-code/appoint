@@ -42,3 +42,5 @@
     </tr>
     </tbody>
 </table>
+<br><br>
+<p style="text-align: center;">Powered by <a href="https://www.facebook.com/YaraMay-CMS-1471889562872452"><strong>YARAMAY Computer Maintenance Services</strong></a></p>
