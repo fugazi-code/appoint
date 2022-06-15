@@ -31,6 +31,9 @@ class CustomerTable extends DataTableComponent
             Column::make("Service", "serviceHasOne.name")
                 ->searchable()
                 ->sortable(),
+            Column::make("Appoint ID", "appointmentHasOne.id")
+                ->searchable()
+                ->sortable(),
             Column::make("Appoint Date", "appointmentHasOne.date_appoint")
                 ->searchable()
                 ->sortable(),
