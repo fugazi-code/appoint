@@ -56,7 +56,7 @@ class CustomerTable extends DataTableComponent
                 ->sortable(),
             Column::make("Ip address", "ip_address")
                 ->sortable(),
-            Column::make("Created At", "updated_at")
+            Column::make("Updated At", "updated_at")
                 ->format(
                     fn($value, $row, Column $column) => Carbon::parse($row->updated_at)->format("F j, Y H:i A")
                 )
