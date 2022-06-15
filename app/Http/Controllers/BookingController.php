@@ -124,6 +124,7 @@ class BookingController extends Controller
         $faker = Factory::create();
         Customer::query()
             ->where('appoint_id', $appoint_id)
+            ->where('id', $customer_id)
             ->where('is_verified', 'no')
             ->update(['is_verified' => $faker->hexColor]);
 
