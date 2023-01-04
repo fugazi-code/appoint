@@ -17,7 +17,7 @@
                     <div class="card-body">
                         <div class="m-sm-4">
                             <div class="text-center">
-                                <img src="{{ asset('images/logo/te-logo.png') }}" alt="Charles Hall" class="img-fluid"
+                                <img src="{{ asset('images/logo/mwa.jpg') }}" alt="Charles Hall" class="img-fluid"
                                     width="125" height="125" />
                             </div>
                             <form method="POST" action="{{ route('login') }}">

@@ -4,7 +4,7 @@
     <div class="app-auth-body mx-auto">
         <h2 class="text-center mb-4">
             <a class="app-logo" href="{{ route('home') }}">
-                <img class="image-fuild" src="{{ asset('images/logo/te-logo.png') }}" alt="logo" width="128" height="128">
+                <img class="image-fuild" src="{{ asset('images/logo/mwa.jpg') }}" alt="logo" width="128" height="128">
             </a>
         </h2>
         <h2 class="text-center mb-4">Sign up to {{ env('APP_NAME') }}</h2>

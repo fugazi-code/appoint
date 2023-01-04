@@ -52,9 +52,9 @@
         el: '#app'
     });
     @endisset
-    // Author: Renier R. Trenuela II
 </script>
 
 @yield('scripts')
+<!-- Author: Renier R. Trenuela II -->
 </body>
 </html>

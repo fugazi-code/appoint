@@ -10,7 +10,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -24,7 +23,6 @@
             font-family: 'Limelight', cursive;
         }
     </style>
-    <!-- Bidvertiser2064417 -->
 </head>
 
 <body class="app app-login p-0">
@@ -57,9 +55,9 @@
             el: '#app'
         });
     @endisset
-    // Author: Renier R. Trenuela II
 </script>
 
 @yield('scripts')
+<!-- Author: Renier R. Trenuela II -->
 </body>
 </html>

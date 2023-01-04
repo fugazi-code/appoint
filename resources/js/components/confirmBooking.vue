@@ -3,7 +3,7 @@
         <div class="d-flex flex-column justify-content-center">
             <div class="mt-5 text-center">
                 <h1 class="fw-bolder text-center lime-light d-flex flex-column">
-                    <img src="/images/logo/te-logo.png" width="50px" class="me-2">
+                    <img src="/images/logo/mwa.jpg" width="50px" class="me-2">
                     <label>{{ overview.business.name }}</label>
                     <label>{{ overview.customer.service_has_one.name }}</label>
                 </h1>

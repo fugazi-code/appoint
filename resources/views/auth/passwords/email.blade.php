@@ -4,7 +4,7 @@
     <div class="mx-auto">
         <div class="text-center mb-4">
             <a class="app-logo" href="{{ route('home') }}">
-                <img class="mr-2" src="{{ asset('images/logo/te-logo.png') }}" alt="logo" width="128" height="128">
+                <img class="mr-2" src="{{ asset('images/logo/mwa.jpg') }}" alt="logo" width="128" height="128">
             </a>
         </div>
         <h2 class="text-center mb-4">{{ __('Reset Password') }}</h2>

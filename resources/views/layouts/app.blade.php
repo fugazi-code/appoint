@@ -77,6 +77,7 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('js/dataTables.bootstrap5.min.js') }}"></script>
     @yield('scripts')
+    <!-- Author: Renier R. Trenuela II -->
 </body>
 
 </html>
